@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <div id="js">
+      <p>This is a msg from Elm:</p>
+      <div id="elmMsg"></div>
+      <button id="toElmButton">Send Hello to Elm</button>
+    </div>
+    <div id="app">
+    </div>
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript">
+      let el = document.getElementById('app');
+
+      let app = Elm.Main.embed(el);
+
+      let toElmButton = document.getElementById('toElmButton');
+      toElmButton.onclick = function(){
+        app.ports.fromJS.send('Hello');
+      }
+
+      app.ports.toJS.subscribe(function(text){
+        console.log(text);
+        let jsEl = document.getElementById('elmMsg');
+        jsEl.innerText = text;
+      });
+      console.log(app.ports);
+    </script>
+  </body>
+</html>
